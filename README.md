@@ -4,13 +4,13 @@
 The setup function takes a security parameter $\lambda$ and returns the parameters for the encryption scheme, which includes:
 - $n \in \mathbb{Z}$ is an integer lattice dimension
 - $q \in \mathbb{Z}$ is an odd prime
-- $\Chi \subset \mathbb{Z}$ is some random distribution
+- $\chi \subset \mathbb{Z}$ is some random distribution
 - $m \in \mathbb{Z}$ is the sample size for the public key
 
 Furthermore, we denote $l = \lceil \log_2{q} \rceil = \lfloor \log_2{q}\rfloor + 1$ and $N = (n+1) \cdot l$
 
 ## Secret Key
-To generate the secret key, we first generate an LWE secret $\vec{s} = (1, -\vec{t}) \in \mathbb{Z}_q^{(n+1)}$ where $\vec{t} \larr \mathbb{Z}_q^n$ is uniformly sampled, then output:
+To generate the secret key, we first generate an LWE secret $\vec{s} = (1, -\vec{t}) \in \mathbb{Z}_q^{(n+1)}$ where $\vec{t} \leftarrow \mathbb{Z}_q^n$ is uniformly sampled, then output:
 
 $$
 \text{sk} = \vec{v} = \text{PowersOf2}(\vec{s}) \in \mathbb{Z}_q^N
@@ -19,8 +19,8 @@ $$
 ## Public key
 The public key is the LWE problem, which is constructed by adding noise to the output of a series of randomly generated linear equation. More specifically:
 
-1. Uniformly sample $B \larr \mathbb{Z}_q^{m \times n}$
-2. Sample the noise $\vec{e} \larr \Chi^m$
+1. Uniformly sample $B \leftarrow \mathbb{Z}_q^{m \times n}$
+2. Sample the noise $\vec{e} \leftarrow \chi^m$
 3. Compute the noisy result $\vec{b} = B\vec{t} + \vec{e}$, where $\vec{t}$ is the LWE secret in the secret key
 
 Finally, output the public key:
@@ -57,28 +57,28 @@ $$
 a = \sum_{j=0}^{\lfloor \log{q} \rfloor} 2^j \cdot a_j, \hspace{5pt} a_j \in \mathbb{Z}_2
 $$
 
-Thus, for $\vec{a} = (a_1, a_2, \mathellipsis, a_n) \in \mathbb{Z}_q^n$, we can define bit decomposition:
+Thus, for $\vec{a} = (a_1, a_2, \ldots, a_n) \in \mathbb{Z}_q^n$, we can define bit decomposition:
 
 $$
-\text{BitDecomp}(\vec{a}) = (a_{1, 0}, a_{1, 1}, \mathellipsis, a_{1, \lfloor \log{q} \rfloor}, \mathellipsis, a_{n, 0}, a_{n, 1}, \mathellipsis, a_{n, \lfloor \log{q} \rfloor}) \in \mathbb{Z}_2^{n \cdot \lceil \log{q} \rceil}
+\text{BitDecomp}(\vec{a}) = (a_{1, 0}, a_{1, 1}, \ldots, a_{1, \lfloor \log{q} \rfloor}, \ldots, a_{n, 0}, a_{n, 1}, \ldots, a_{n, \lfloor \log{q} \rfloor}) \in \mathbb{Z}_2^{n \cdot \lceil \log{q} \rceil}
 $$
 
 Where for each $i$,  $a_i = \sum_{j=0}^{\lfloor \log{q} \rfloor} 2^j \cdot a_{i, j}$
 
 ### Inverse of bit decomposition
-The inverse of bit decomposition takes the binary representation and constructs the original vector in $\mathbb{Z}_q^n$. Let $\vec{a}^\prime = (a_{1, 0}, a_{1, 1}, \mathellipsis, a_{1, \lfloor \log{q} \rfloor}, \mathellipsis, a_{n, 0}, a_{n, 1}, \mathellipsis, a_{n, \lfloor \log{q} \rfloor}) \in \mathbb{Z}_2^{n \times \lceil \log{q} \rceil}$:
+The inverse of bit decomposition takes the binary representation and constructs the original vector in $\mathbb{Z}_q^n$. Let $\vec{a}^\prime = (a_{1, 0}, a_{1, 1}, \ldots, a_{1, \lfloor \log{q} \rfloor}, \ldots, a_{n, 0}, a_{n, 1}, \ldots, a_{n, \lfloor \log{q} \rfloor}) \in \mathbb{Z}_2^{n \times \lceil \log{q} \rceil}$:
 
 $$
-\text{BitDecomp}^{-1}(\vec{a}^\prime) = (\sum_{j=0}^{\lfloor \log{q} \rfloor}2^j \cdot a_{1, j}, \mathellipsis, \sum_{j=0}^{\lfloor \log{q} \rfloor}2^j \cdot a_{n, j}) \in \mathbb{Z}_q^n
+\text{BitDecomp}^{-1}(\vec{a}^\prime) = (\sum_{j=0}^{\lfloor \log{q} \rfloor}2^j \cdot a_{1, j}, \ldots, \sum_{j=0}^{\lfloor \log{q} \rfloor}2^j \cdot a_{n, j}) \in \mathbb{Z}_q^n
 $$
 
 It is worth pointing out that even if the input is not strictly a binary vector $\vec{a}^\prime \in \mathbb{Z}_q^{n \cdot \lceil \log{q} \rceil}$, the function is still well defined
 
 ### Powers of 2
-Given vector $\vec{b} = (b_1, b_2, \mathellipsis, b_n) \in \mathbb{Z}_q^n$:
+Given vector $\vec{b} = (b_1, b_2, \ldots, b_n) \in \mathbb{Z}_q^n$:
 
 $$
-\text{PowersOf2}(\vec{b}) = (b_1, 2b_1, \mathellipsis, 2^{\lfloor \log{q}\rfloor}b_1, \mathellipsis, b_n, 2b_n, \mathellipsis, 2^{\lfloor \log{q}\rfloor}b_n) \in \mathbb{Z}_q^{n \cdot \lceil \log{q} \rceil}
+\text{PowersOf2}(\vec{b}) = (b_1, 2b_1, \ldots, 2^{\lfloor \log{q}\rfloor}b_1, \ldots, b_n, 2b_n, \ldots, 2^{\lfloor \log{q}\rfloor}b_n) \in \mathbb{Z}_q^{n \cdot \lceil \log{q} \rceil}
 $$
 
 ### Flatten
