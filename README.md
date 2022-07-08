@@ -49,7 +49,7 @@ where because $R \in \mathbb{Z}_2^{N \times N}$, the magnitude of coefficients o
 
 ## Helper functions
 ### Bit decomposition
-The point of bit composition is to break a vector in $\mathbb{Z}_q^n$ into a vector with small coefficients $\mathbb{Z}_2^{n \cdot \lceil \log{q} \rceil}$. 
+The point of bit composition is to break a vector in $\mathbb{Z}_q^n$ into a vector with small coefficients $\mathbb{Z}_2^{n \cdot \lceil \log{q} \rceil}$
 
 First, observe that for each integer in the ring $a \in \mathbb{Z}_q$ there is a unique binary representation:
 
